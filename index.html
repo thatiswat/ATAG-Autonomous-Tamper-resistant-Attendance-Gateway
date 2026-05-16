@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>ATAG Dashboard</title>
+
+    <style>
+
+        body {
+            background: #0d1117;
+            color: white;
+            font-family: Arial;
+            text-align: center;
+        }
+
+        .card {
+            margin: 20px auto;
+            padding: 20px;
+            width: 380px;
+            border-radius: 10px;
+            background: #161b22;
+        }
+
+        .green {
+            color: lime;
+        }
+
+        .red {
+            color: red;
+        }
+
+        table {
+            margin: 20px auto;
+            border-collapse: collapse;
+            width: 80%;
+        }
+
+        th, td {
+            border: 1px solid #444;
+            padding: 8px;
+        }
+
+        th {
+            background: #222;
+        }
+
+    </style>
+</head>
+
+<body>
+
+<h1>ATAG STUDENT MONITOR</h1>
+
+<div class="card">
+
+    <h2 id="name"></h2>
+
+    <h3 id="class"></h3>
+
+    <h2 id="status"></h2>
+
+    <h3 id="human"></h3>
+
+    <p>
+        Time In:
+        <span id="timein"></span>
+    </p>
+
+    <p>
+        Time Out:
+        <span id="timeout"></span>
+    </p>
+
+    <p>
+        Duration:
+        <span id="duration"></span> sec
+    </p>
+
+</div>
+
+<h2>Attendance History</h2>
+
+<table>
+
+    <thead>
+
+        <tr>
+
+            <th>Time In</th>
+
+            <th>Time Out</th>
+
+            <th>Duration (sec)</th>
+
+        </tr>
+
+    </thead>
+
+    <tbody id="history"></tbody>
+
+</table>
+
+<script>
+
+async function updateDashboard() {
+
+    const res =
+        await fetch('/data?' + Date.now());
+
+    const d =
+        await res.json();
+
+    document.getElementById("name")
+        .innerText = d.name;
+
+    document.getElementById("class")
+        .innerText = d.class;
+
+    const statusEl =
+        document.getElementById("status");
+
+    statusEl.innerText = d.status;
+
+    statusEl.className =
+        d.status === "IN"
+        ? "green"
+        : "red";
+
+    document.getElementById("human")
+        .innerText = "BLE VERIFIED";
+
+    document.getElementById("timein")
+        .innerText = d.time_in;
+
+    document.getElementById("timeout")
+        .innerText = d.time_out;
+
+    document.getElementById("duration")
+        .innerText = d.duration;
+}
+
+async function updateHistory() {
+
+    const res =
+        await fetch('/history?' + Date.now());
+
+    const data =
+        await res.json();
+
+    const table =
+        document.getElementById("history");
+
+    table.innerHTML = "";
+
+    data.slice().reverse().forEach(row => {
+
+        table.innerHTML += `
+            <tr>
+                <td>${row.time_in}</td>
+                <td>${row.time_out}</td>
+                <td>${row.duration}</td>
+            </tr>
+        `;
+    });
+}
+
+setInterval(() => {
+
+    updateDashboard();
+
+    updateHistory();
+
+}, 1000);
+
+updateDashboard();
+
+updateHistory();
+
+</script>
+
+</body>
+</html>
