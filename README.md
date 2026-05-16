@@ -14,8 +14,9 @@ Unlike traditional attendance systems, ATAG reduces proxy/spoof attendance by co
 ---
 
 # System Architecture
-<img width="252" height="133" alt="image" src="https://github.com/user-attachments/assets/6b4db1c9-6b38-47b6-b3ce-87cdd1031a73" />
+<img width="1000" height="1000" alt="shopping" src="https://github.com/user-attachments/assets/cb868d8e-f551-4573-bb10-e0403b666165" />
 
+<img width="252" height="133" alt="image" src="https://github.com/user-attachments/assets/6b4db1c9-6b38-47b6-b3ce-87cdd1031a73" />
 
 ---
 
